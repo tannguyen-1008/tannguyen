@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân Bán Hàng</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #2F4F4F;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        header {
+            background-color: #556B2F;
+            padding: 20px;
+            border-bottom: 5px solid #3D5229;
+        }
+        h1 {
+            color: #FFFFFF;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+        .product img {
+            width: 150px;
+            height: auto;
+        }
+        #home {
+            background-color: #3D5229;
+            padding: 50px;
+        }
+        button {
+            background-color: #556B2F;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+        button:hover {
+            background-color: #3D5229;
+        }
+        .review-section {
+            margin-top: 20px;
+            background-color: #3D5229;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .review-section input, .review-section textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .review-section button {
+            background-color: #556B2F;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .review-section button:hover {
+            background-color: #3D5229;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shop Cá Nhân</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Trang ch?</a></li>
+                <li><a href="#products">S?n ph?m</a></li>
+                <li><a href="#cart">Gi? hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home">
+        <h2>Chào m?ng d?n v?i c?a hàng c?a tôi!</h2>
+        <p>Chuyên cung c?p các s?n ph?m ch?t lu?ng cao!</p>
+    </section>
+    
+    <section id="products">
+        <h2>S?n ph?m</h2>
+        <div class="product">
+            <img src="https://scontent.fhan5-9.fna.fbcdn.net/v/t1.6435-9/117304770_1217669085246008_1353056966322716924_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEDab78KFxaZyAu0cf2uo0tk8Rdan76WZSTxF1qfvpZlDXWK_ASVx3GRIXyRySK3w6j1otRp1hEub_v72Qe9w4d&_nc_ohc=qTCFzPX5hBkQ7kNvgF8G2LG&_nc_oc=AdiyfIxJtLityQnnsuTN9wOzw_AoIu6doBgQxFJrPWa_L7raxJmnIeVjcExy7rtBSviy0XFxl0hZQBp9a1hzec11&_nc_zt=23&_nc_ht=scontent.fhan5-9.fna&_nc_gid=A2oTYgnytLLtgsp-vRdAPVN&oh=00_AYDCPlzt_kHNWfxVSrg6IpYH3BquJvnftBVekiBVaUWovQ&oe=67E01A73" alt="Nu?c Hoa Tân Nguy?n">
+            <h3>Nu?c Hoa Tân Nguy?n</h3>
+            <p>Giá: 500,000 VNÐ</p>
+            <button onclick="addToCart('Nu?c Hoa Tân Nguy?n', 500000)">Thêm vào gi?</button>
+        </div>
+    </section>
+    
+    <section id="cart">
+        <h2>Gi? hàng</h2>
+        <ul id="cart-list"></ul>
+        <p>T?ng ti?n: <span id="total-price">0</span> VNÐ</p>
+    </section>
+    
+    <section class="review-section">
+        <h2>Ðánh giá s?n ph?m</h2>
+        <input type="text" id="reviewer-name" placeholder="Tên c?a b?n">
+        <textarea id="review-text" placeholder="Nh?p dánh giá c?a b?n..."></textarea>
+        <button onclick="submitReview()">G?i dánh giá</button>
+        <h3>Ðánh giá g?n dây:</h3>
+        <ul id="review-list"></ul>
+    </section>
+    
+    <script>
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+        function updateCart() {
+            let cartList = document.getElementById("cart-list");
+            let totalPrice = document.getElementById("total-price");
+            cartList.innerHTML = "";
+            let total = 0;
+            cart.forEach(item => {
+                let li = document.createElement("li");
+                li.textContent = `${item.name} - ${item.price} VNÐ`;
+                cartList.appendChild(li);
+                total += item.price;
+            });
+            totalPrice.textContent = total;
+        }
+
+        function submitReview() {
+            let name = document.getElementById("reviewer-name").value;
+            let review = document.getElementById("review-text").value;
+            if (name && review) {
+                let reviewList = document.getElementById("review-list");
+                let li = document.createElement("li");
+                li.textContent = `${name}: ${review}`;
+                reviewList.appendChild(li);
+                document.getElementById("reviewer-name").value = "";
+                document.getElementById("review-text").value = "";
+            } else {
+                alert("Vui lòng nh?p d?y d? thông tin!");
+            }
+        }
+    </script>
+</body>
+</html>
